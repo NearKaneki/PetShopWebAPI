@@ -4,8 +4,7 @@
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public int Value { get; set; }
+        public string Value { get; set; }
         public int ItemID { get; set; }
-        public string Measure { get; set; }
     }
 }

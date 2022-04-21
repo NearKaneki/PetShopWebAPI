@@ -7,8 +7,7 @@
         public int ClientID { get; set; }
         public DateTime BookingDate { get; set; }
         public int Amount { get; set; }
-        public DateTime BookingDateStop { get; set; }
         public string BookingNumber { get; set; }
-        public string Status { get; set; }
+        public string BookingStatus { get; set; }
     }
 }
