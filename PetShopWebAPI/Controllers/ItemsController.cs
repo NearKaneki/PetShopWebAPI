@@ -16,27 +16,37 @@ namespace PetShopWebAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Item> GetItems()
-        {
-            return _repo.GetItems();
-        }
+        public ActionResult<IEnumerable<Item>> Get()=> _repo.GetItems().ToList();
 
         [HttpGet("{id}")]
-        public Item GetItem(int id)
+        public ActionResult<Item> Get(int id)
         {
-            return _repo.GetItemByID(id);
+            Item item = _repo.Get(id);
+            if (item == null)
+            {
+                NotFound();
+            }
+            return item;
         }
 
-        [HttpGet("{cathegoryName}")]
-        public IEnumerable<Item> GetItemsByCathegory(string cathegoryName)
+        [HttpGet("cathegory/{cathegoryName}")]
+        public ActionResult<IEnumerable<Item>> GetItemsByCathegory(string cathegoryName)
         {
-            return _repo.GetItemsByCathegory(cathegoryName);
+            if (_repo.GetCathegories().FirstOrDefault(x => x.Name == cathegoryName) == null)
+            {
+                return NotFound();
+            }
+            return _repo.GetItemsByCathegory(cathegoryName).ToList();
         }
 
-        [HttpGet("{subCathegoryName}")]
-        public IEnumerable<Item> GetItemsBySubCathegory(string subCathegoryName)
+        [HttpGet("subCathegory/{subCathegoryName}")]
+        public ActionResult<IEnumerable<Item>> GetItemsBySubCathegory(string subCathegoryName)
         {
-            return _repo.GetItemsBySubCathegory(subCathegoryName);
+            if(_repo.GetSubCathegories().FirstOrDefault(x=>x.Name == subCathegoryName) == null)
+            {
+                return NotFound();
+            }
+            return _repo.GetItemsBySubCathegory(subCathegoryName).ToList();
         }
     }
 }

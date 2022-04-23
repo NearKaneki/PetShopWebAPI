@@ -10,7 +10,7 @@ namespace DAL
     public interface IRepo
     {
         IEnumerable<Item> GetItems();
-        Item GetItemByID(int idItem);
+        Item Get(int idItem);
         IEnumerable<Item> GetItemsByCathegory(string cathegoryName);
         IEnumerable<Item> GetItemsBySubCathegory(string subcathegory);
         IEnumerable<Cathegory> GetCathegories();

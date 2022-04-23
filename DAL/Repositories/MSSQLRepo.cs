@@ -45,7 +45,7 @@ namespace DAL
             return _context.Item.Where(x => SubCathrgories.Contains(x.SubCathegoryID));
         }
 
-        public Item GetItemByID(int idItem)
+        public Item Get(int idItem)
         {
             return _context.Item.FirstOrDefault(x => x.ID == idItem);
         }

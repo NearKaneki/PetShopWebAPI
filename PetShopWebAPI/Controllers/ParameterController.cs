@@ -5,7 +5,7 @@ using PetShopWebAPI.Entities;
 namespace PetShopWebAPI.Controllers
 {
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("api/[controller]")]
     public class ParameterController : Controller
     {
         private readonly IRepo _repo;
@@ -15,9 +15,13 @@ namespace PetShopWebAPI.Controllers
         }
 
         [HttpGet("{idItem}")]
-        public IEnumerable<Parameter> GetParameters(int idItem)
+        public ActionResult<IEnumerable<Parameter>> GetParameters(int idItem)
         {
-            return _repo.GetParameters(idItem);
+            if (_repo.Get(idItem) == null)
+            {
+                return NotFound();
+            }
+            return _repo.GetParameters(idItem).ToList();
         }
     }
 }

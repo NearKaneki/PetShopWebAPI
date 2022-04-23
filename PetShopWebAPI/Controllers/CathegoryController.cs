@@ -5,7 +5,7 @@ using PetShopWebAPI.Entities;
 namespace PetShopWebAPI.Controllers
 {
     [ApiController]
-    [Route("{api/[controller]}")]
+    [Route("api/[controller]")]
     public class CathegoryController : Controller
     {
         private readonly IRepo _repo;
@@ -15,9 +15,9 @@ namespace PetShopWebAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Cathegory> GetCathegories()
+        public ActionResult<IEnumerable<Cathegory>> GetCathegories()
         {
-            return _repo.GetCathegories();
+            return _repo.GetCathegories().ToList();
         }
     }
 }
