@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IRepo, MSSQLRepo>();
 
 builder.Services.AddDbContext<MSSQLContext>(o =>
-    o.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL")));
+    o.UseSqlServer(builder.Configuration.GetConnectionString("Somee")));
 
 builder.Services.AddControllers();
 

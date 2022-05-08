@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PetShopWebAPI.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PetShopWebAPI.Entities;
 
 namespace DAL
 {
@@ -19,51 +13,61 @@ namespace DAL
 
         public void BookingItem(Booking booking)
         {
+            //if (_context.Items.FirstOrDefault(x => x.ID == booking.ItemID) != default(Item))
+            //{
+            //    if (_context.Clients.FirstOrDefault(x => x.ID == booking.ClientID) != default(Client))
+            //    {
+            //        if(booking.Amount<=_context.Items.Where(x => x.ID == booking.ItemID).Select(x => x.AmountAvailable).First())
+            //        {
+
+            //        }
+            //    }
+            //}
             _context.Add(booking);
             _context.SaveChanges();
         }
 
         public IEnumerable<Cathegory> GetCathegories()
         {
-            return _context.Cathegory;
+            return _context.Cathegories;
         }
 
         public IEnumerable<Client> GetClients()
         {
-            return _context.Client;
+            return _context.Clients;
         }
 
         public IEnumerable<Item> GetItems()
         {
-            return _context.Item;
+            return _context.Items;
         }
 
         public IEnumerable<Item> GetItemsByCathegory(string cathegoryName)
         {
-            int idCathegory = _context.Cathegory.FirstOrDefault(x => x.Name == cathegoryName).ID;
-            var SubCathrgories = _context.SubCathegory.Where(x => x.ID == idCathegory).Select(x => x.ID);
-            return _context.Item.Where(x => SubCathrgories.Contains(x.SubCathegoryID));
+            int idCathegory = _context.Cathegories.FirstOrDefault(x => x.Name == cathegoryName).ID;
+            var SubCathrgories = _context.SubCathegories.Where(x => x.ID == idCathegory).Select(x => x.ID);
+            return _context.Items.Where(x => SubCathrgories.Contains(x.SubCathegoryID));
         }
 
         public Item Get(int idItem)
         {
-            return _context.Item.FirstOrDefault(x => x.ID == idItem);
+            return _context.Items.FirstOrDefault(x => x.ID == idItem);
         }
 
         public IEnumerable<Item> GetItemsBySubCathegory(string subCathegory)
         {
-            var SubCathrgories = _context.SubCathegory.Where(x => x.Name == subCathegory).Select(x => x.ID);
-            return _context.Item.Where(x => SubCathrgories.Contains(x.SubCathegoryID));
+            var SubCathrgories = _context.SubCathegories.Where(x => x.Name == subCathegory).Select(x => x.ID);
+            return _context.Items.Where(x => SubCathrgories.Contains(x.SubCathegoryID));
         }
 
         public IEnumerable<Parameter> GetParameters(int idItem)
         {
-            return _context.Parameter.Where(x => x.ItemID == idItem);
+            return _context.Parameters.Where(x => x.ItemID == idItem);
         }
 
         public IEnumerable<SubCathegory> GetSubCathegories()
         {
-            return _context.SubCathegory;
+            return _context.SubCathegories;
         }
     }
 }
