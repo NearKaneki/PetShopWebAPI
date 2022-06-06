@@ -16,6 +16,9 @@ namespace DAL
         IEnumerable<Cathegory> GetCathegories();
         IEnumerable<SubCathegory> GetSubCathegories();
         IEnumerable<Parameter> GetParameters(int idItem);
+        IEnumerable<Client> GetClients();
+        Client Get(string email);
+        void AddClient(Client client);
         void BookingItem(Booking booking);
     }
 }

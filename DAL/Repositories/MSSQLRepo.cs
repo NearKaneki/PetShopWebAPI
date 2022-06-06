@@ -13,16 +13,6 @@ namespace DAL
 
         public void BookingItem(Booking booking)
         {
-            //if (_context.Items.FirstOrDefault(x => x.ID == booking.ItemID) != default(Item))
-            //{
-            //    if (_context.Clients.FirstOrDefault(x => x.ID == booking.ClientID) != default(Client))
-            //    {
-            //        if(booking.Amount<=_context.Items.Where(x => x.ID == booking.ItemID).Select(x => x.AmountAvailable).First())
-            //        {
-
-            //        }
-            //    }
-            //}
             _context.Add(booking);
             _context.SaveChanges();
         }
@@ -68,6 +58,18 @@ namespace DAL
         public IEnumerable<SubCathegory> GetSubCathegories()
         {
             return _context.SubCathegories;
+        }
+
+        public Client Get(string email)
+        {
+            var clients = _context.Clients.ToList();
+            return clients.FirstOrDefault(x => x.Email == email);
+        }
+
+        public void AddClient(Client client)
+        {
+            _context.Clients.Add(client);
+            _context.SaveChanges();
         }
     }
 }
