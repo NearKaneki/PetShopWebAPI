@@ -3,18 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+string MyAllowSpecificOrigins = "CorsPolicy";
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("https://localhost:7049")
-                          .AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                      });
+    options.AddPolicy(name: MyAllowSpecificOrigins, builder =>
+        builder.AllowAnyOrigin()//@TODO на проде изменить
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
 
 // Add services to the container.
@@ -39,9 +35,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
-app.UseCors(MyAllowSpecificOrigins);
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

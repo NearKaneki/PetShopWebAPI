@@ -69,7 +69,7 @@ namespace PetShopWebAPI.Controllers
                 await client.DisconnectAsync(true);
             }
 
-            return Ok(verifCode);
+            return Ok(new { VerifCode = verifCode});
         }
 
         private static string RandomString(int length)
