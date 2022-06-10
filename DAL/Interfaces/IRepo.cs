@@ -11,11 +11,6 @@ namespace DAL
     {
         IEnumerable<Item> GetItems();
         Item Get(int idItem);
-        IEnumerable<Item> GetItemsByCathegory(string cathegoryName);
-        IEnumerable<Item> GetItemsBySubCathegory(string subcathegory);
-        IEnumerable<Cathegory> GetCathegories();
-        IEnumerable<SubCathegory> GetSubCathegories();
-        IEnumerable<Parameter> GetParameters(int idItem);
         IEnumerable<Client> GetClients();
         Client Get(string email);
         void AddClient(Client client);
