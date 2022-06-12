@@ -29,21 +29,21 @@ namespace PetShopWebAPI.Controllers
                 _repo.AddClient(new Client() { Name = dto.Name, Email = dto.Email });
                 client = _repo.Get(dto.Email);
             } 
-            string orderNumber = $"{_repo.GetItems().Where(x => x.ID == dto.ItemId).Select(x => x.Name).FirstOrDefault()}_{dto.Email}_{RandomString(5)}";
+
             _repo.BookingItem(new Booking()
             {
                 ClientID = client.ID,
                 ItemID = dto.ItemId,
                 Amount = dto.Count,
                 BookingDate = DateTime.Now,
-                BookingNumber = orderNumber,
+                BookingNumber = dto.OdredNumber,
                 BookingStatus = "Забронировано"
             });
-            return Ok(orderNumber);
+            return Ok();
         }
 
         [HttpPost("SendEmail")]
-        public async Task<ActionResult<string>> SendEmail(DtoForBooking dto)
+        public async Task<ActionResult> SendEmail(DtoForBooking dto)
         {
             if (_repo.Get(dto.ItemId).AmountAvailable<dto.Count)
             {
@@ -51,13 +51,16 @@ namespace PetShopWebAPI.Controllers
             }
             string verifCode = RandomString(10);
 
+            string orderNumber = $"{_repo.GetItems().Where(x => x.ID == dto.ItemId).Select(x => x.Name).FirstOrDefault()}_{dto.Email}_{RandomString(5)}";
+
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("ПетШопСаратов", "near55@yandex.ru"));
             emailMessage.To.Add(new MailboxAddress("", dto.Email));
             emailMessage.Subject = "Бронирование на сайте PetShop";
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
-                Text = $"Заказ: {dto.Count} ед. {_repo.GetItems().Where(x => x.ID == dto.ItemId).Select(x => x.Name).FirstOrDefault()} {Environment.NewLine}" +
+                Text = $"Номер заказа: {orderNumber} {Environment.NewLine}" +
+                $"Заказ: {dto.Count} ед. {_repo.GetItems().Where(x => x.ID == dto.ItemId).Select(x => x.Name).FirstOrDefault()} {Environment.NewLine}" +
                 $"Код подтверждения: {verifCode}"
             };
 
@@ -69,7 +72,7 @@ namespace PetShopWebAPI.Controllers
                 await client.DisconnectAsync(true);
             }
 
-            return Ok(new { VerifCode = verifCode});
+            return Ok(new { VerifCode = verifCode, OrderNumber = orderNumber});
         }
 
         private static string RandomString(int length)
