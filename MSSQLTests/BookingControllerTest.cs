@@ -21,8 +21,6 @@ namespace MSSQLTests
           //  repoStub.Setup(x => x.BookingItem());
 
             var controller = new BookingController(repoStub.Object);
-
-
         }
 
         [Test]
@@ -95,8 +93,8 @@ namespace MSSQLTests
             var result =   controller.SendEmail(Fakedto);
 
             //Assert
-             
 
+            Assert.IsInstanceOf<OkObjectResult>(result);
         }
     }
 }
