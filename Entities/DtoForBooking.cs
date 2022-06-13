@@ -12,5 +12,6 @@ namespace Entities
         public int Count { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        public string OdredNumber { get; set; }
     }
 }
