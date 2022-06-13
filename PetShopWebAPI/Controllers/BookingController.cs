@@ -43,13 +43,15 @@ namespace PetShopWebAPI.Controllers
         }
 
         [HttpPost("SendEmail")]
-        public async Task<ActionResult<string>> SendEmail(DtoForBooking dto)
+        public async Task<ActionResult> SendEmail(DtoForBooking dto)
         {
-            if (_repo.Get(dto.ItemId).AmountAvailable<dto.Count)
+            if (_repo.Get(dto.ItemId).AmountAvailable < dto.Count)
             {
                 return BadRequest("Недостаточно товара");
             }
             string verifCode = RandomString(10);
+
+            string orderNumber = $"{dto.Email}_{RandomString(5)}";
 
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("ПетШопСаратов", "near55@yandex.ru"));
@@ -57,7 +59,8 @@ namespace PetShopWebAPI.Controllers
             emailMessage.Subject = "Бронирование на сайте PetShop";
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
-                Text = $"Заказ: {dto.Count} ед. {_repo.GetItems().Where(x => x.ID == dto.ItemId).Select(x => x.Name).FirstOrDefault()} {Environment.NewLine}" +
+                Text = $"Номер заказа: {orderNumber} {Environment.NewLine}" +
+                $"Заказ: {dto.Count} ед. {_repo.GetItems().Where(x => x.ID == dto.ItemId).Select(x => x.Name).FirstOrDefault()} {Environment.NewLine}" +
                 $"Код подтверждения: {verifCode}"
             };
 
@@ -69,7 +72,7 @@ namespace PetShopWebAPI.Controllers
                 await client.DisconnectAsync(true);
             }
 
-            return Ok(new { VerifCode = verifCode});
+            return Ok(new { VerifCode = verifCode, OrderNumber = orderNumber });
         }
 
         private static string RandomString(int length)
