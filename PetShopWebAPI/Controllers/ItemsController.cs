@@ -17,12 +17,5 @@ namespace PetShopWebAPI.Controllers
 
         [HttpGet]
         public ActionResult<IEnumerable<Item>> Get()=> _repo.GetItems().ToList();
-
-        [HttpGet("Find")]
-        public ActionResult<IEnumerable<Item>> GetByFilter(string find)
-        {
-            List<Item> result = _repo.GetItems().Where(x => x.Name.Contains(find)).ToList();
-            return result;
-        }
     }
 }
