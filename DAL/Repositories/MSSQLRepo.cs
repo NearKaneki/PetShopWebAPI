@@ -16,6 +16,12 @@ namespace DAL
             _context.Add(booking);
             _context.SaveChanges();
         }
+        
+        public Booking GetBooking(int id)
+        {
+            return _context.Bookings.FirstOrDefault(x => x.ID == id);
+        }
+
 
         public IEnumerable<Client> GetClients()
         {

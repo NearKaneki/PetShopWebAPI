@@ -19,9 +19,9 @@ namespace PetShopWebAPI.Controllers
         public ActionResult<IEnumerable<Item>> Get()=> _repo.GetItems().ToList();
 
         [HttpGet("Find")]
-        public ActionResult<IEnumerable<Item>> GetByFilter(string find)
+        public ActionResult<IEnumerable<Item>> GetByFilter(string find) // To lower Case
         {
-            List<Item> result = _repo.GetItems().Where(x => x.Name.Contains(find)).ToList();
+            List<Item> result = _repo.GetItems().Where(x =>  x.Name.ToLower().Contains(find.ToLower())).ToList();
             return result;
         }
     }

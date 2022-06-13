@@ -9,5 +9,7 @@
         public int Amount { get; set; }
         public string BookingNumber { get; set; }
         public string BookingStatus { get; set; }
+
+       
     }
 }
