@@ -51,7 +51,7 @@ namespace PetShopWebAPI.Controllers
             }
             string verifCode = RandomString(10);
 
-            string orderNumber = $"{_repo.GetItems().Where(x => x.ID == dto.ItemId).Select(x => x.Name).FirstOrDefault()}_{dto.Email}_{RandomString(5)}";
+            string orderNumber = $"{dto.Email}_{RandomString(5)}";
 
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("ПетШопСаратов", "near55@yandex.ru"));
