@@ -10,5 +10,19 @@
         public string ItemDescription { get; set; }
         public string Picture { get; set; }
         public decimal Price { get; set; }
+
+
+        //public Item(int ID, string Name, int AmountAll, int SubCathegoryID,
+        //    int AmountAvailable, string ItemDescription, string Picture, decimal Price)
+        //{
+        //    this.ID = ID;
+        //    this.Name = Name;
+        //    this.AmountAll = AmountAll;
+        //    this.SubCathegoryID = SubCathegoryID;
+        //    this.AmountAvailable = AmountAvailable;
+        //    this.ItemDescription = ItemDescription;
+        //    this.Picture = Picture;
+        //    this.Price = Price;
+        //}
     }
 }

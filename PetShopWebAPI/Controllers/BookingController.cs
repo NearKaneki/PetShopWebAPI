@@ -29,23 +29,23 @@ namespace PetShopWebAPI.Controllers
                 _repo.AddClient(new Client() { Name = dto.Name, Email = dto.Email });
                 client = _repo.Get(dto.Email);
             } 
-
+            string orderNumber = $"{_repo.GetItems().Where(x => x.ID == dto.ItemId).Select(x => x.Name).FirstOrDefault()}_{dto.Email}_{RandomString(5)}";
             _repo.BookingItem(new Booking()
             {
                 ClientID = client.ID,
                 ItemID = dto.ItemId,
                 Amount = dto.Count,
                 BookingDate = DateTime.Now,
-                BookingNumber = dto.OdredNumber,
+                BookingNumber = orderNumber,
                 BookingStatus = "Забронировано"
             });
-            return Ok();
+            return Ok(orderNumber);
         }
 
         [HttpPost("SendEmail")]
         public async Task<ActionResult> SendEmail(DtoForBooking dto)
         {
-            if (_repo.Get(dto.ItemId).AmountAvailable<dto.Count)
+            if (_repo.Get(dto.ItemId).AmountAvailable < dto.Count)
             {
                 return BadRequest("Недостаточно товара");
             }
@@ -72,7 +72,7 @@ namespace PetShopWebAPI.Controllers
                 await client.DisconnectAsync(true);
             }
 
-            return Ok(new { VerifCode = verifCode, OrderNumber = orderNumber});
+            return Ok(new { VerifCode = verifCode, OrderNumber = orderNumber });
         }
 
         private static string RandomString(int length)
